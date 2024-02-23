@@ -1,9 +1,10 @@
 package main
 
 import (
-	"github.com/backend-timedoor/gtimekeeper-framework/app"
 	"gtimekeeper/bootstrap"
 	"runtime"
+
+	"github.com/backend-timedoor/gtimekeeper-framework/app"
 )
 
 func main() {
@@ -11,12 +12,11 @@ func main() {
 	bootstrap.Boot()
 
 	go func() {
-		// app.Schedule.Run()
-		// app.Queue.Run()
+		app.Job.Run()
 		app.Server.Http().Run(app.Config.GetString("app.host"))
-		// go app.Server.Grpc().Run(app.Config.GetString("app.host"))
+		// app.Server.Grpc().Run(app.Config.GetString("app.host"))
 
 	}()
-	//
+
 	select {}
 }

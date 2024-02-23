@@ -156,7 +156,8 @@ app.Cache.Add("test")
 app.Cache.Add("test_add", "update", time.Minute * 300);
 app.Cache.Push("key", "value here");
 ```
-### Scheduler
+### Job
+#### Scheduler
 you can add scheduler file on `src/cmd/schedules` and register the file in schedule provider.
 ```go
 func (log *ScheduleServiceProvider) Register() {
@@ -180,8 +181,14 @@ func (s *ExampleSchedule) Signature() string {
 	return "example:schedule"
 }
 
+func (m *ExampleJob) Options() []asynq.Option {
+	return []asynq.Option{
+		asynq.ProcessIn(5 * time.Second),
+	}
+}
+
 func (s *ExampleSchedule) Schedule() string {
-	return schedule.EveryMinute()
+	return "@every 3s"
 }
 
 
@@ -196,7 +203,7 @@ go func() {
     app.Schedule.Run()
 }()
 ```
-### Queue
+#### Queue
 you should create a new queue with your own name, then use it to send message or receive message, you can make your own queue file at `src/cmd/jobs`, job file example 
 ```go
 import (
@@ -230,11 +237,11 @@ func (j *ExampleJob) Handle(ctx context.Context, t *asynq.Task) error {
 you can put setting the queue on the options function for example you want to delay the queue.
 To add a task to the queue, simply create an instance of your job type and pass it, and call this code to add the task
 ```go
-app.Queue.Job(&jobs.ExampleJob{}, map[string]any{
-    "ID":       1,
-    "Username": "john_doe",
-    "Email":    "john.doe@example.com",
-    "Age":      25,
+app.Job.Queue(&jobs.ExampleJob{}, map[string]any{
+	"ID":       1,
+	"Username": "john_doe",
+	"Email":    "john.doe@example.com",
+	"Age":      25,
 })
 ```
 ### Console
@@ -281,15 +288,15 @@ go run . gtime your_command_signature
 gtime framework already support for email send, you can easily send email, first you need to create instance email 
 on `src/_common/mail`, example code:
 ```go
-package mail
+package email
 
 import (
-	envelop "github.com/backend-timedoor/gtimekeeper-framework/utils/app/email"
+	"github.com/backend-timedoor/gtimekeeper-framework/base/mail"
 	"github.com/jordan-wright/email"
 )
 
 type ExampleMail struct {
-	SendTo      envelop.SendTo
+	SendTo      mail.SendTo
 	Attachments []*email.Attachment
 }
 
@@ -297,14 +304,19 @@ func (m *ExampleMail) From() string {
 	return "Edwin Diradinata <edwindiradinata@gmail.com>"
 }
 
-func (m *ExampleMail) Content(data any) envelop.Content {
-	return envelop.Content{
+func (m *ExampleMail) View() string {
+	return "example.html"
+}
+
+func (m *ExampleMail) Content(data any) mail.Content {
+	return mail.Content{
 		Subject: "Awesome Subject {Data Here}",
 		ReplyTo: []string{"edwindiradinata@gmail.com"},
 		Text:    []byte("Text Body is, of course, supported!"),
 		HTML:    []byte("<h1>Fancy HTML is supported, too!</h1>"),
 	}
 }
+
 ```
 if you want to use template for the email you can add this code to your email instance
 ```go
@@ -313,6 +325,14 @@ func (m *ExampleMail) View() string {
 }
 ```
 this view instance automatically pointing to folder `src/view/mail` and you can add your template there.
-for the detail you can see the docs [here](https://github.com/jordan-wright/email)
-
-
+for the detail you can see the docs [here](https://github.com/jordan-wright/email)<br>
+#### Send Email Example
+```go
+app.Mail.Send(&email.ExampleMail{
+	SendTo: mail.SendTo{
+		To: []string{"edwinwaellan@gmail.com"},
+	},
+}, map[string]any{
+	"name": "Edwin",
+})
+```

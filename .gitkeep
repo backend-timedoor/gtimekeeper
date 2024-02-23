@@ -1,0 +1,11 @@
+tests
+/src/_common/pkg
+/src/_common/pkg
+/src/_common/utils 
+/src/_common/utils/contracts 
+/src/_common/utils/helpers
+
+/src/app/grpc/middleware
+/src/app/http/middleware
+/src/app/kafka/schema
+

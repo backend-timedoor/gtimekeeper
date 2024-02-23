@@ -12,7 +12,7 @@ type ConsoleServiceProvider struct{}
 func (p *ConsoleServiceProvider) Boot() {}
 
 func (p *ConsoleServiceProvider) Register() {
-	console.BootConsole([]contracts.Commands{
+	console.New([]contracts.Commands{
 		&cmd.ExampleCommand{},
 		//new comment here
 	})

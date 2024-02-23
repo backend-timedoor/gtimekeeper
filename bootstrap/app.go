@@ -10,11 +10,14 @@ import (
 func Boot() {
 	boot.Booting([]contracts.ServiceProvider{
 		&providers.ConfigServiceProvider{},
+		&providers.LogServiceProvider{},
 		&providers.AppServiceProvider{},
+		&providers.ValidationServiceProvider{},
+		&providers.DatabaseServiceProvider{},
 		&providers.ConsoleServiceProvider{},
 		&providers.ServerServiceProvider{},
-		&providers.QueueServiceProvider{},
-		&providers.ScheduleServiceProvider{},
-		//&providers.KafkaServiceProvider{},
+		&providers.JobServiceProvider{},
+		// &providers.KafkaServiceProvider{},
+		&providers.MailServiceProvider{},
 	})
 }

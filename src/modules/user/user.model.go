@@ -10,18 +10,14 @@ import (
 
 type (
 	User struct {
-		ID           int       `json:"id"`
-		Name         string    `json:"name"`
-		Email        string    `json:"email"`
-		Phone        string    `json:"phone"`
-		Username     string    `json:"username"`
-		Password     string    `json:"password"`
-		Status       string    `json:"status"`
-		UserableID   int       `gorm:"default:null" json:"userable_id,omitempty"`
-		UserableType string    `gorm:"default:null" json:"userable_type,omitempty"`
-		ReferalCode  string    `gorm:"default:null" json:"referal_code"`
-		CreatedAt    time.Time `json:"created_at"`
-		UpdatedAt    time.Time `json:"updated_at"`
+		ID        int       `json:"id"`
+		Name      string    `json:"name"`
+		Email     string    `json:"email"`
+		Phone     string    `json:"phone"`
+		Username  string    `json:"username"`
+		Password  string    `json:"password"`
+		CreatedAt time.Time `json:"created_at"`
+		UpdatedAt time.Time `json:"updated_at"`
 	}
 
 	Response struct {

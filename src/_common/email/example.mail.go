@@ -1,12 +1,13 @@
-package mail
+package email
 
 import (
-	envelop "github.com/backend-timedoor/gtimekeeper-framework/utils/app/email"
+	"github.com/backend-timedoor/gtimekeeper-framework/base/mail"
 	"github.com/jordan-wright/email"
 )
 
 type ExampleMail struct {
-	SendTo      envelop.SendTo
+	WithQueue   bool
+	SendTo      mail.SendTo
 	Attachments []*email.Attachment
 }
 
@@ -18,8 +19,8 @@ func (m *ExampleMail) View() string {
 	return "example.html"
 }
 
-func (m *ExampleMail) Content(data any) envelop.Content {
-	return envelop.Content{
+func (m *ExampleMail) Content(data any) mail.Content {
+	return mail.Content{
 		Subject: "Awesome Subject {Data Here}",
 		ReplyTo: []string{"edwindiradinata@gmail.com"},
 		Text:    []byte("Text Body is, of course, supported!"),

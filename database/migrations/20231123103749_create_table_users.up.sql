@@ -5,7 +5,7 @@ CREATE TABLE users (
     phone VARCHAR(250) UNIQUE,
     username VARCHAR(250) UNIQUE,
     password VARCHAR(250),
-    created_at TIMESTAMPTZ,
-    updated_at TIMESTAMPTZ,
-    deleted_at TIMESTAMPTZ
+    created_at TIMESTAMP(3),
+    updated_at TIMESTAMP(3),
+    deleted_at TIMESTAMP(3)
 );

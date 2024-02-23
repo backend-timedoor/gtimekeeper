@@ -26,16 +26,16 @@ var (
 )
 
 func (p *ServerServiceProvider) Boot() {
-	app.Server.RegisterCustomeValidation([]contracts.Validation{
+	app.Server.RegisterCustomeValidation([]contracts.CustomeValidation{
 		//
 	})
 }
 
 func (p *ServerServiceProvider) Register() {
-	s := []contracts.ServerHandle{
+	servers := []contracts.ServerHandle{
 		grpcServer,
 		httpServer,
 	}
 
-	app.Server = server.BootServer(s)
+	app.Server = server.New(servers)
 }
